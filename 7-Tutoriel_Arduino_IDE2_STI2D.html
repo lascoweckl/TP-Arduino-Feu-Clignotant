@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>STI2D — Tutoriel Arduino IDE 2</title>
+<style>
+:root{--bleu:#005f62;--bleu2:#008184;--clair:#eef8f8;--orange:#e48a36;--violet:#7457a6;--gris:#5c6773;--bord:#c8dfe0;--y:#fff3c7}
+*{box-sizing:border-box} body{margin:0;background:#f3f6f8;color:#263442;font:16px/1.55 "Segoe UI",Arial,sans-serif}
+header{background:linear-gradient(135deg,#005f62,#008184);color:#fff;padding:32px 20px} .wrap{max-width:1050px;margin:auto}
+.eyebrow{font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.85;font-size:.82rem} h1{margin:.25rem 0 .4rem;font-size:2.05rem;line-height:1.1}
+header p{max-width:850px;margin:0;opacity:.94} main{max-width:1050px;margin:26px auto;padding:0 18px 55px}
+.card{background:#fff;border:1px solid var(--bord);border-radius:16px;padding:25px;margin:18px 0;box-shadow:0 6px 18px #005f6210}
+h2{color:var(--bleu);margin:0 0 14px;font-size:1.55rem} h3{color:var(--bleu2);margin:20px 0 8px}
+.step{display:flex;gap:16px;align-items:flex-start} .num{flex:0 0 46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--bleu2);color:#fff;font-size:22px;font-weight:800}
+.badge{display:inline-block;padding:5px 10px;border-radius:999px;background:var(--clair);color:var(--bleu);font-weight:700;font-size:.82rem}
+.tip{background:var(--clair);border-left:5px solid var(--bleu2);padding:14px 18px;border-radius:8px;margin:14px 0}
+.warn{background:var(--y);border-left:5px solid var(--orange);padding:14px 18px;border-radius:8px;margin:14px 0}
+figure{margin:20px 0 5px} figure svg{width:100%;height:auto;display:block} figcaption{font-size:13px;color:#63747b;text-align:center;margin-top:7px}
+kbd{background:#263442;color:#fff;border-radius:5px;padding:2px 7px;font-family:inherit} code{background:#eef2f3;border-radius:5px;padding:2px 6px}
+.check{list-style:none;padding:0} .check li{padding:7px 0 7px 31px;position:relative} .check li:before{content:"✓";position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;background:var(--bleu2);color:white;text-align:center;font-weight:bold}
+.nav-sommaire{max-width:1050px;margin:14px auto;padding:0 18px} .nav-sommaire a,.doclink{display:inline-flex;align-items:center;text-decoration:none;background:#008184;color:#fff;font-weight:700;padding:11px 16px;border-radius:10px;box-shadow:0 3px 8px #005f6230}
+.nav-sommaire a:hover,.doclink:hover{background:#005f62} .nav-sommaire a:active,.doclink:active{transform:translateY(2px)}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:15px} .summary div{background:var(--clair);border:1px solid var(--bord);border-radius:10px;padding:12px;text-align:center;font-weight:700;color:var(--bleu)}
+footer{text-align:center;color:#71808d;font-size:.85rem;padding:20px}
+@media(max-width:720px){h1{font-size:1.7rem} main{padding:0 12px} .card{padding:18px} .step{display:block} .num{margin-bottom:10px}}
+@media print{body{background:#fff;font-size:10pt} header{background:#fff!important;color:#005f62;border-bottom:3px solid #005f62} main{margin:8px auto;padding:0} .card{box-shadow:none;break-inside:avoid} .nav-sommaire,.doclink{display:none!important}}
+</style><link rel="icon" type="image/png" sizes="64x64" href="data:image/png;base64,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">
+<link rel="shortcut icon" href="data:image/png;base64,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">
+</head><body>
+<nav class="nav-sommaire"><a href="index.html">← Retour au sommaire</a></nav>
+<header><div class="wrap"><div class="eyebrow">STI2D • Arduino • Fiche méthode</div><h1>Utiliser Arduino IDE 2</h1>
+<p>Créer et enregistrer un programme, sélectionner l’Arduino Uno et son port COM, vérifier le code puis le téléverser dans la carte.</p></div></header>
+<main>
+<section class="card"><span class="badge">Objectif</span><h2>Du programme à la carte Arduino</h2>
+<p>À la fin de cette fiche, tu dois être capable de programmer une <strong>Arduino Uno</strong> sans aide : créer un sketch, le sauvegarder, sélectionner la carte et le port série, compiler puis téléverser.</p>
+<div class="summary"><div>1. Nouveau sketch</div><div>2. Enregistrer</div><div>3. Carte + COM</div><div>4. Vérifier</div><div>5. Téléverser</div></div></section>
+
+<section class="card"><div class="step"><div class="num">1</div><div><h2>Créer un nouveau programme</h2>
+<p>Dans Arduino IDE 2, un programme Arduino est appelé un <strong>sketch</strong>. Pour démarrer un nouveau travail, utilise <strong>Fichier → Nouveau sketch</strong>. L’éditeur affiche la structure minimale avec <code>setup()</code> et <code>loop()</code>.</p></div></div>
+<figure><svg viewBox="0 0 1000 500" role="img" aria-label="Créer un nouveau sketch" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1000" height="500" rx="18" fill="#f5f7f8"/>
+    <rect x="20" y="20" width="960" height="460" rx="14" fill="#fff" stroke="#c8dfe0" stroke-width="3"/>
+    <rect x="20" y="20" width="960" height="48" rx="14" fill="#263442"/>
+    <text x="45" y="51" font-family="Segoe UI,Arial" font-size="20" fill="#fff">Arduino IDE 2 — Créer un nouveau sketch</text>
+    <rect x="20" y="68" width="960" height="45" fill="#eef8f8"/>
+    <text x="45" y="96" font-family="Segoe UI,Arial" font-size="16" fill="#263442">Fichier   Édition   Croquis   Outils   Aide</text>
+    <circle cx="55" cy="145" r="20" fill="#008184"/><text x="48" y="152" font-family="Arial" font-size="22" fill="white">✓</text>
+    <circle cx="105" cy="145" r="20" fill="#008184"/><text x="98" y="152" font-family="Arial" font-size="22" fill="white">→</text>
+    <rect x="150" y="124" width="300" height="42" rx="8" fill="#fff" stroke="#8ca9aa" stroke-width="2"/>
+    <text x="168" y="151" font-family="Segoe UI,Arial" font-size="17" fill="#263442">Arduino Uno — COM5 ▾</text>
+    <rect x="45" y="190" width="700" height="220" rx="8" fill="#fbfcfd" stroke="#d7e3e4"/>
+    <text x="70" y="225" font-family="Consolas,monospace" font-size="18" fill="#7457a6">void setup() &#123;</text>
+    <text x="95" y="260" font-family="Consolas,monospace" font-size="18" fill="#263442">// initialisation</text>
+    <text x="70" y="295" font-family="Consolas,monospace" font-size="18" fill="#7457a6">&#125;</text>
+    <text x="70" y="335" font-family="Consolas,monospace" font-size="18" fill="#7457a6">void loop() &#123;</text>
+    <text x="95" y="370" font-family="Consolas,monospace" font-size="18" fill="#263442">// programme répété</text>
+    <text x="70" y="405" font-family="Consolas,monospace" font-size="18" fill="#7457a6">&#125;</text>
+    <rect x="765" y="190" width="190" height="220" rx="8" fill="#263442"/>
+    <text x="785" y="220" font-family="Consolas,monospace" font-size="14" fill="#d7f4f4">Console</text>
+    <text x="785" y="250" font-family="Consolas,monospace" font-size="13" fill="#fff">Nouveau sketch</text>
+    <rect x="38" y="73" width="330" height="34" rx="6" fill="none" stroke="#e48a36" stroke-width="5"/><text x="390" y="99" font-family="Segoe UI,Arial" font-size="18" fill="#e48a36">Fichier → Nouveau sketch</text>
+    <rect x="45" y="430" width="910" height="30" rx="6" fill="#eef8f8"/>
+    <text x="60" y="451" font-family="Segoe UI,Arial" font-size="14" fill="#005f62">Illustration pédagogique de l’interface — les libellés peuvent varier légèrement selon la version.</text>
+    </svg><figcaption>Création d’un nouveau sketch.</figcaption></figure></section>
+
+<section class="card"><div class="step"><div class="num">2</div><div><h2>Enregistrer le fichier</h2>
+<p>Enregistre le travail dès le début avec <strong>Fichier → Enregistrer sous…</strong>, puis donne un nom explicite au projet, par exemple <code>Feu_Velo</code>. Utilise ensuite régulièrement <kbd>Ctrl</kbd> + <kbd>S</kbd>.</p>
+<div class="tip"><strong>Bonne pratique :</strong> un nom court et explicite, sans caractères spéciaux, facilite le rangement et l’identification du programme.</div></div></div>
+<figure><svg viewBox="0 0 1000 500" role="img" aria-label="Enregistrer le sketch" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1000" height="500" rx="18" fill="#f5f7f8"/>
+    <rect x="20" y="20" width="960" height="460" rx="14" fill="#fff" stroke="#c8dfe0" stroke-width="3"/>
+    <rect x="20" y="20" width="960" height="48" rx="14" fill="#263442"/>
+    <text x="45" y="51" font-family="Segoe UI,Arial" font-size="20" fill="#fff">Arduino IDE 2 — Enregistrer le sketch</text>
+    <rect x="20" y="68" width="960" height="45" fill="#eef8f8"/>
+    <text x="45" y="96" font-family="Segoe UI,Arial" font-size="16" fill="#263442">Fichier   Édition   Croquis   Outils   Aide</text>
+    <circle cx="55" cy="145" r="20" fill="#008184"/><text x="48" y="152" font-family="Arial" font-size="22" fill="white">✓</text>
+    <circle cx="105" cy="145" r="20" fill="#008184"/><text x="98" y="152" font-family="Arial" font-size="22" fill="white">→</text>
+    <rect x="150" y="124" width="300" height="42" rx="8" fill="#fff" stroke="#8ca9aa" stroke-width="2"/>
+    <text x="168" y="151" font-family="Segoe UI,Arial" font-size="17" fill="#263442">Arduino Uno — COM5 ▾</text>
+    <rect x="45" y="190" width="700" height="220" rx="8" fill="#fbfcfd" stroke="#d7e3e4"/>
+    <text x="70" y="225" font-family="Consolas,monospace" font-size="18" fill="#7457a6">void setup() &#123;</text>
+    <text x="95" y="260" font-family="Consolas,monospace" font-size="18" fill="#263442">// initialisation</text>
+    <text x="70" y="295" font-family="Consolas,monospace" font-size="18" fill="#7457a6">&#125;</text>
+    <text x="70" y="335" font-family="Consolas,monospace" font-size="18" fill="#7457a6">void loop() &#123;</text>
+    <text x="95" y="370" font-family="Consolas,monospace" font-size="18" fill="#263442">// programme répété</text>
+    <text x="70" y="405" font-family="Consolas,monospace" font-size="18" fill="#7457a6">&#125;</text>
+    <rect x="765" y="190" width="190" height="220" rx="8" fill="#263442"/>
+    <text x="785" y="220" font-family="Consolas,monospace" font-size="14" fill="#d7f4f4">Console</text>
+    <text x="785" y="250" font-family="Consolas,monospace" font-size="13" fill="#fff">Nom : Feu_Velo</text>
+    <rect x="38" y="73" width="110" height="34" rx="6" fill="none" stroke="#e48a36" stroke-width="5"/><text x="470" y="99" font-family="Segoe UI,Arial" font-size="18" fill="#e48a36">Fichier → Enregistrer sous…</text>
+    <rect x="45" y="430" width="910" height="30" rx="6" fill="#eef8f8"/>
+    <text x="60" y="451" font-family="Segoe UI,Arial" font-size="14" fill="#005f62">Illustration pédagogique de l’interface — les libellés peuvent varier légèrement selon la version.</text>
+    </svg><figcaption>Enregistrer le sketch avant de commencer le travail.</figcaption></figure></section>
+
+<section class="card"><div class="step"><div class="num">3</div><div><h2>Choisir la bonne carte et le bon port COM</h2>
+<p>Branche l’Arduino Uno au PC avec le câble USB. Sur les postes utilisés au lycée, effectue les deux réglages depuis le menu <strong>Outils</strong>.</p>
+<h3>1 — Choisir la carte</h3>
+<p>Clique sur <strong>Outils → Carte</strong>, puis sélectionne <strong>Arduino Uno</strong>.</p>
+<h3>2 — Choisir le port de communication</h3>
+<p>Clique ensuite sur <strong>Outils → Port</strong>, puis sélectionne le port <strong>COM</strong> correspondant à la carte, par exemple <strong>COM6</strong>.</p>
+<div class="warn"><strong>Attention :</strong> le numéro du port COM n’est pas toujours le même. Il peut être COM5, COM6, COM7… et peut changer d’un ordinateur à l’autre. Ne recopie donc pas simplement le numéro COM d’un camarade.</div>
+<div class="tip"><strong>Astuce :</strong> si tu ne sais pas quel port choisir, regarde les ports disponibles, débranche l’Arduino, puis rebranche-le. Le port qui réapparaît correspond normalement à la carte.</div>
+</div></div>
+<figure><svg viewBox="0 0 1000 560" role="img" aria-label="Choisir la carte Arduino Uno et le port COM depuis le menu Outils" xmlns="http://www.w3.org/2000/svg">
+<rect width="1000" height="560" rx="18" fill="#f5f7f8"/>
+<rect x="20" y="20" width="960" height="520" rx="14" fill="#fff" stroke="#c8dfe0" stroke-width="3"/>
+<rect x="20" y="20" width="960" height="48" rx="14" fill="#263442"/>
+<text x="45" y="51" font-family="Segoe UI,Arial" font-size="20" fill="#fff">Arduino IDE 2 — sélectionner la carte et le port</text>
+<rect x="20" y="68" width="960" height="45" fill="#eef8f8"/>
+<text x="45" y="96" font-family="Segoe UI,Arial" font-size="16" fill="#263442">Fichier   Édition   Croquis   <tspan font-weight="700" fill="#008184">Outils</tspan>   Aide</text>
+
+<rect x="250" y="108" width="410" height="365" rx="7" fill="#fff" stroke="#b8c7ca" stroke-width="2"/>
+<text x="272" y="140" font-family="Segoe UI,Arial" font-size="16" fill="#263442">Formatage automatique</text>
+<text x="272" y="177" font-family="Segoe UI,Arial" font-size="16" fill="#263442">Gérer les bibliothèques...</text>
+<text x="272" y="214" font-family="Segoe UI,Arial" font-size="16" fill="#263442">Moniteur série</text>
+<text x="272" y="251" font-family="Segoe UI,Arial" font-size="16" fill="#263442">Traceur série</text>
+<rect x="263" y="279" width="382" height="42" rx="6" fill="#eef8f8" stroke="#e48a36" stroke-width="4"/>
+<text x="272" y="306" font-family="Segoe UI,Arial" font-size="17" font-weight="700" fill="#005f62">Carte : "Arduino Uno"</text>
+<text x="620" y="306" font-family="Segoe UI,Arial" font-size="19" fill="#263442">›</text>
+<rect x="263" y="328" width="382" height="42" rx="6" fill="#eef8f8" stroke="#e48a36" stroke-width="4"/>
+<text x="272" y="355" font-family="Segoe UI,Arial" font-size="17" font-weight="700" fill="#005f62">Port : "COM6"</text>
+<text x="620" y="355" font-family="Segoe UI,Arial" font-size="19" fill="#263442">›</text>
+<text x="272" y="401" font-family="Segoe UI,Arial" font-size="16" fill="#263442">Obtenir les informations sur la carte</text>
+<text x="272" y="438" font-family="Segoe UI,Arial" font-size="16" fill="#263442">Programmeur</text>
+
+<path d="M680 300 L650 300" stroke="#e48a36" stroke-width="4"/>
+<text x="695" y="295" font-family="Segoe UI,Arial" font-size="17" fill="#e48a36">1. Outils → Carte</text>
+<path d="M680 350 L650 350" stroke="#e48a36" stroke-width="4"/>
+<text x="695" y="345" font-family="Segoe UI,Arial" font-size="17" fill="#e48a36">2. Outils → Port</text>
+
+<rect x="45" y="495" width="910" height="30" rx="6" fill="#eef8f8"/>
+<text x="60" y="516" font-family="Segoe UI,Arial" font-size="14" fill="#005f62">Le numéro COM peut varier : COM5, COM6, COM7… selon le poste utilisé.</text>
+</svg><figcaption>Sur les postes du lycée : passer par <strong>Outils → Carte</strong> puis <strong>Outils → Port</strong>.</figcaption></figure></section>
+<section class="card"><div class="step"><div class="num">4</div><div><h2>Compiler : vérifier le programme</h2>
+<p>Clique sur le bouton <strong>✓ Vérifier</strong>. L’IDE analyse le sketch et le compile. Une erreur de syntaxe empêche la compilation : lis alors le message affiché dans la console en bas de la fenêtre et corrige le programme.</p>
+<div class="tip"><strong>À retenir :</strong> compiler ne programme pas encore l’Arduino. Cette étape permet de vérifier que le code peut être transformé en programme exécutable pour la carte.</div></div></div>
+<figure><svg viewBox="0 0 1000 500" role="img" aria-label="Compiler / vérifier" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1000" height="500" rx="18" fill="#f5f7f8"/>
+    <rect x="20" y="20" width="960" height="460" rx="14" fill="#fff" stroke="#c8dfe0" stroke-width="3"/>
+    <rect x="20" y="20" width="960" height="48" rx="14" fill="#263442"/>
+    <text x="45" y="51" font-family="Segoe UI,Arial" font-size="20" fill="#fff">Arduino IDE 2 — Compiler / vérifier</text>
+    <rect x="20" y="68" width="960" height="45" fill="#eef8f8"/>
+    <text x="45" y="96" font-family="Segoe UI,Arial" font-size="16" fill="#263442">Fichier   Édition   Croquis   Outils   Aide</text>
+    <circle cx="55" cy="145" r="20" fill="#008184"/><text x="48" y="152" font-family="Arial" font-size="22" fill="white">✓</text>
+    <circle cx="105" cy="145" r="20" fill="#008184"/><text x="98" y="152" font-family="Arial" font-size="22" fill="white">→</text>
+    <rect x="150" y="124" width="300" height="42" rx="8" fill="#fff" stroke="#8ca9aa" stroke-width="2"/>
+    <text x="168" y="151" font-family="Segoe UI,Arial" font-size="17" fill="#263442">Arduino Uno — COM5 ▾</text>
+    <rect x="45" y="190" width="700" height="220" rx="8" fill="#fbfcfd" stroke="#d7e3e4"/>
+    <text x="70" y="225" font-family="Consolas,monospace" font-size="18" fill="#7457a6">void setup() &#123;</text>
+    <text x="95" y="260" font-family="Consolas,monospace" font-size="18" fill="#263442">// initialisation</text>
+    <text x="70" y="295" font-family="Consolas,monospace" font-size="18" fill="#7457a6">&#125;</text>
+    <text x="70" y="335" font-family="Consolas,monospace" font-size="18" fill="#7457a6">void loop() &#123;</text>
+    <text x="95" y="370" font-family="Consolas,monospace" font-size="18" fill="#263442">// programme répété</text>
+    <text x="70" y="405" font-family="Consolas,monospace" font-size="18" fill="#7457a6">&#125;</text>
+    <rect x="765" y="190" width="190" height="220" rx="8" fill="#263442"/>
+    <text x="785" y="220" font-family="Consolas,monospace" font-size="14" fill="#d7f4f4">Console</text>
+    <text x="785" y="250" font-family="Consolas,monospace" font-size="13" fill="#fff">Compilation réussie</text>
+    <circle cx="55" cy="145" r="28" fill="none" stroke="#e48a36" stroke-width="6"/><path d="M83 145 L500 145" stroke="#e48a36" stroke-width="4"/><rect x="500" y="124" width="170" height="42" rx="9" fill="#fff3c7" stroke="#e48a36" stroke-width="3"/><text x="535" y="151" font-family="Segoe UI,Arial" font-size="18" font-weight="700" fill="#9a5718">✓ Vérifier</text>
+    <rect x="45" y="430" width="910" height="30" rx="6" fill="#eef8f8"/>
+    <text x="60" y="451" font-family="Segoe UI,Arial" font-size="14" fill="#005f62">Illustration pédagogique de l’interface — les libellés peuvent varier légèrement selon la version.</text>
+    </svg><figcaption>Le bouton ✓ lance la vérification et la compilation.</figcaption></figure></section>
+
+<section class="card"><div class="step"><div class="num">5</div><div><h2>Téléverser dans l’Arduino</h2>
+<p>Lorsque le programme compile correctement et que la bonne carte ainsi que le bon port sont sélectionnés, clique sur <strong>→ Téléverser</strong>. L’IDE compile puis transfère le programme dans la mémoire du microcontrôleur.</p>
+<p>Pendant le transfert, les voyants <strong>RX/TX</strong> de la carte peuvent clignoter. Attends la fin du téléversement avant de débrancher l’Arduino.</p></div></div>
+<figure><svg viewBox="0 0 1000 500" role="img" aria-label="Téléverser vers l’Arduino" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1000" height="500" rx="18" fill="#f5f7f8"/>
+    <rect x="20" y="20" width="960" height="460" rx="14" fill="#fff" stroke="#c8dfe0" stroke-width="3"/>
+    <rect x="20" y="20" width="960" height="48" rx="14" fill="#263442"/>
+    <text x="45" y="51" font-family="Segoe UI,Arial" font-size="20" fill="#fff">Arduino IDE 2 — Téléverser vers l’Arduino</text>
+    <rect x="20" y="68" width="960" height="45" fill="#eef8f8"/>
+    <text x="45" y="96" font-family="Segoe UI,Arial" font-size="16" fill="#263442">Fichier   Édition   Croquis   Outils   Aide</text>
+    <circle cx="55" cy="145" r="20" fill="#008184"/><text x="48" y="152" font-family="Arial" font-size="22" fill="white">✓</text>
+    <circle cx="105" cy="145" r="20" fill="#008184"/><text x="98" y="152" font-family="Arial" font-size="22" fill="white">→</text>
+    <rect x="150" y="124" width="300" height="42" rx="8" fill="#fff" stroke="#8ca9aa" stroke-width="2"/>
+    <text x="168" y="151" font-family="Segoe UI,Arial" font-size="17" fill="#263442">Arduino Uno — COM5 ▾</text>
+    <rect x="45" y="190" width="700" height="220" rx="8" fill="#fbfcfd" stroke="#d7e3e4"/>
+    <text x="70" y="225" font-family="Consolas,monospace" font-size="18" fill="#7457a6">void setup() &#123;</text>
+    <text x="95" y="260" font-family="Consolas,monospace" font-size="18" fill="#263442">// initialisation</text>
+    <text x="70" y="295" font-family="Consolas,monospace" font-size="18" fill="#7457a6">&#125;</text>
+    <text x="70" y="335" font-family="Consolas,monospace" font-size="18" fill="#7457a6">void loop() &#123;</text>
+    <text x="95" y="370" font-family="Consolas,monospace" font-size="18" fill="#263442">// programme répété</text>
+    <text x="70" y="405" font-family="Consolas,monospace" font-size="18" fill="#7457a6">&#125;</text>
+    <rect x="765" y="190" width="190" height="220" rx="8" fill="#263442"/>
+    <text x="785" y="220" font-family="Consolas,monospace" font-size="14" fill="#d7f4f4">Console</text>
+    <text x="785" y="250" font-family="Consolas,monospace" font-size="13" fill="#fff">Téléversement terminé</text>
+    <circle cx="105" cy="145" r="28" fill="none" stroke="#e48a36" stroke-width="6"/><path d="M133 145 L500 145" stroke="#e48a36" stroke-width="4"/><rect x="500" y="124" width="205" height="42" rx="9" fill="#fff3c7" stroke="#e48a36" stroke-width="3"/><text x="525" y="151" font-family="Segoe UI,Arial" font-size="18" font-weight="700" fill="#9a5718">→ Téléverser</text>
+    <rect x="45" y="430" width="910" height="30" rx="6" fill="#eef8f8"/>
+    <text x="60" y="451" font-family="Segoe UI,Arial" font-size="14" fill="#005f62">Illustration pédagogique de l’interface — les libellés peuvent varier légèrement selon la version.</text>
+    </svg><figcaption>Le bouton → compile puis téléverse le sketch dans la carte.</figcaption></figure></section>
+
+<section class="card"><h2>En cas de problème</h2>
+<ul class="check"><li>Vérifier que le câble USB est correctement branché.</li><li>Vérifier que <strong>Arduino Uno</strong> est bien la carte sélectionnée.</li><li>Vérifier le <strong>port COM</strong>.</li><li>Lire la première erreur utile indiquée dans la console.</li><li>Relancer d’abord <strong>✓ Vérifier</strong>, puis <strong>→ Téléverser</strong>.</li></ul>
+<div class="warn"><strong>Erreur fréquente :</strong> si la compilation réussit mais que le téléversement échoue, vérifier en priorité la connexion USB et le port COM sélectionné.</div></section>
+
+<section class="card"><h2>La procédure à mémoriser</h2>
+<div class="summary"><div>Créer</div><div>Enregistrer</div><div>Arduino Uno</div><div>COM</div><div>✓ Compiler</div><div>→ Téléverser</div></div>
+<p style="text-align:center;margin-top:20px"><a class="doclink" href="https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-uploading-a-sketch/" target="_blank" rel="noopener noreferrer">Documentation officielle Arduino ↗</a></p></section>
+</main>
+<nav class="nav-sommaire"><a href="index.html">← Retour au sommaire</a></nav>
+<footer>STI2D • Arduino • Tutoriel Arduino IDE 2</footer>
+</body></html>
